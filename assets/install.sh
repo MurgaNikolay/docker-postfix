@@ -4,7 +4,7 @@
 if [[ -a /etc/supervisor/conf.d/supervisord.conf ]]; then
   exit 0
 fi
-
+INET_PROTOCOLS=${INET_PROTOCOLS:-"ipv4"}
 #supervisor
 cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
 [supervisord]
@@ -27,6 +27,7 @@ tail -f /var/log/mail.log
 EOF
 chmod +x /opt/postfix.sh
 postconf -e myhostname=$maildomain
+postconf -e inet_protocols=$INET_PROTOCOLS
 postconf -F '*/*/chroot = n'
 
 ############
