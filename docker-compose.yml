@@ -1,0 +1,13 @@
+version: "2"
+services:
+  postfix:
+    build: .
+    image: nikolaym/postfix
+    hostname: example.com
+    environment:
+      - MAIL_DOMAIN=example.com
+      - SMTP_USER=user:password
+    expose:
+      - 25
+    volumes:
+      - ./opendkim/domainkeys:/etc/opendkim/domainkeys:ro
