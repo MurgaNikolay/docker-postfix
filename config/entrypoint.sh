@@ -6,6 +6,7 @@ postconf -e mailbox_size_limit=0
 postconf -e recipient_delimiter=+
 postconf -F '*/*/chroot = n'
 postconf -e smtpd_sasl_auth_enable=yes
+postconf -e inet_protocols=${INET_PROTOCOLS:-"ipv4"}
 postconf -e broken_sasl_auth_clients=yes
 postconf -e smtpd_recipient_restrictions=permit_sasl_authenticated,reject_unauth_destination
 
@@ -31,7 +32,7 @@ if [[ -n "$(find /etc/postfix/certs -iname *.crt)" && -n "$(find /etc/postfix/ce
 fi
 
 # OPENDKIM
-  rm -f /etc/supervisor/conf.d/opendkim.conf
+rm -f /etc/supervisor/conf.d/opendkim.conf
 if [[ -n "$(find /etc/opendkim/domainkeys -iname *.private)" ]]; then
   postconf -e milter_protocol=2
   postconf -e milter_default_action=accept
